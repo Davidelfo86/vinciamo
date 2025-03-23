@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Corse Cavalli</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -101,6 +101,83 @@
 
         select {
             background-color: white;
+        }
+
+        /* Stili per dispositivi mobili */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 6px;
+            }
+
+            input, select {
+                padding: 4px;
+                font-size: 12px;
+            }
+
+            table th:nth-child(2),
+            table td:nth-child(2) {
+                width: 25%;
+            }
+
+            table th:nth-child(3),
+            table th:nth-child(4),
+            table th:nth-child(5),
+            table td:nth-child(3),
+            table td:nth-child(4),
+            table td:nth-child(5) {
+                width: 8%;
+            }
+
+            table td:nth-child(3) input,
+            table td:nth-child(4) input,
+            table td:nth-child(5) input,
+            table td:nth-child(3) select,
+            table td:nth-child(4) select,
+            table td:nth-child(5) select {
+                width: 90%;
+                min-width: 40px;
+            }
+
+            .button-container {
+                display: flex;
+                gap: 10px;
+                justify-content: center;
+            }
+
+            button {
+                padding: 8px 16px;
+                font-size: 14px;
+                flex: 1;
+                max-width: 150px;
+            }
+
+            .alert {
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            #logDati table {
+                font-size: 11px;
+            }
+
+            #logDati button {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
         }
     </style>
 </head>
@@ -213,7 +290,6 @@
             const righe = document.querySelectorAll('#mainTable tr');
             const cavalliAttuali = [];
 
-            // Raccogli i nomi dei cavalli inseriti
             for (let i = 1; i < 7; i++) {
                 const riga = righe[i];
                 const cavalloInput = riga.querySelectorAll('input')[0];
@@ -227,7 +303,6 @@
                 return;
             }
 
-            // Cerca nelle corse salvate
             let trovata = false;
             for (let corsa of corse) {
                 let cavalliCorsa = corsa.dati
@@ -256,7 +331,7 @@
                     },
                     body: JSON.stringify({
                         ...corsa,
-                        trisVincente: "'" + corsa.trisVincente // Aggiunge l'apostrofo per forzare il formato testo
+                        trisVincente: "'" + corsa.trisVincente
                     })
                 });
                 return true;
@@ -297,7 +372,6 @@
                 dati: []
             };
 
-            // Raccoglie i dati dalla tabella
             for (let i = 1; i < 7; i++) {
                 const riga = document.querySelectorAll('#mainTable tr')[i];
                 const inputs = riga.querySelectorAll('input');
@@ -318,7 +392,6 @@
 
             mostraMessaggio('⌛ Salvataggio in corso...', 'info');
 
-            // Salva in Google Sheets
             const salvataggioOk = await salvaInGoogleSheets(corsa);
             
             if (salvataggioOk) {
